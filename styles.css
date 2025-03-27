@@ -1,0 +1,525 @@
+/* Resetando margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo básico para o body */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+/* Estilo para o cabeçalho */
+header {
+    background-color: hsl(0, 0%, 0%);
+    color: white;
+    padding: 0px 0;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    overflow: hidden; /* Garante que nada transborde */
+}
+
+/* Header content flex ajustado */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Alinha os itens para toda a largura */
+    padding: 0 10px; /* Adiciona um pouco de espaçamento nas laterais */
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+    overflow: hidden; /* Garante que nada transborde */
+}
+
+/* Ajuste no nome da igreja */
+#nome-igreja {
+    font-family: 'Roboto Slab', serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f1f1f1d0;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    white-space: nowrap; /* Impede que o texto quebre em duas linhas */
+    overflow: hidden; /* Garante que o texto longo seja cortado */
+    text-overflow: ellipsis; /* Adiciona "..." caso o texto ultrapasse */
+}
+
+/* Ajustes para a logo */
+.logo-igreja {
+    width: 200px; /* Ajusta a largura da logo */
+    height: auto;
+    margin-right: 0px;
+    max-width: 100%; /* Garante que a logo não ultrapasse os limites do cabeçalho */
+}
+/* Estilização da lista de redes sociais */
+.social-links {
+    list-style: none;
+    display: flex;
+    gap: 20px; /* Espaçamento entre ícones */
+    align-items: center;
+    
+}
+
+
+.social-links li img {
+    width: 25px; /* Ajuste do tamanho dos ícones */
+    height: 25px;
+    transition: transform 0.2s ease-in-out;
+    
+   
+}
+.social-links img {
+    width: 40px;
+    height: 40px;
+    filter: grayscale(80%);
+    transition: 0.3s;
+}
+
+.social-links img:hover {
+    filter: none; /* Retorna à cor original ao passar o mouse */
+}
+/* Efeito de hover nos ícones */
+.social-links li img:hover {
+    transform: scale(1.1);
+}
+
+nav {
+    background-color: #333335; /* Cor de fundo moderna */
+    padding: 15px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Aumentei o espaçamento */
+}
+nav ul li {
+    display: inline;
+}
+
+
+nav ul li a {
+    text-decoration: none;
+    font-size: 20px; /* Fonte maior */
+    font-weight: bold;
+    color: #ffffff;
+    padding: 14px 22px;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+
+nav ul li a:hover {
+    background-color: #4d4c4c; /* Cor ao passar o mouse */
+    color: #ffffff;
+}
+/* Estilo das seções */
+section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+section h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Animação fade-in */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Estilo para as imagens */
+.img-biblia, .img-cruz {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Estilo para o formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form input, form textarea {
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 600px;
+}
+
+form button {
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+}
+
+form button:hover {
+    background-color: #ff6347;
+}
+
+/* Carrossel */
+.carousel-container {
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    max-width: 600px;
+    overflow: hidden;
+}
+
+.carousel-images {
+    display: flex;
+    transition: transform 0.7s ease-in-out;
+}
+
+.carousel-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: opacity 0.5s ease;
+}
+
+/* Efeito de zoom nas imagens do carrossel */
+.carousel-image:hover {
+    transform: scale(1.05);
+}
+
+/* Botões do carrossel */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+/* Estilo para a seção de ofertas */
+#ofertas {
+    background: linear-gradient(135deg, #f7f7f7, #e3e3e3); /* Gradiente suave */
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+/* Título da seção */
+#ofertas h2 {
+    color: #2E7D32;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+/* Caixa de chave PIX */
+.offer-box {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    display: inline-block;
+    width: 90%;
+    max-width: 500px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Estilização do texto da chave PIX */
+.pix-info p {
+    font-size: 1.6rem;
+    color: #444;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Caixa da chave PIX */
+#pix-key {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2E7D32;
+    background: #f1f1f1;
+    padding: 12px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-top: 10px;
+    word-wrap: break-word;
+    max-width: 100%;
+    width: 85%;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+#pix-key:hover {
+    box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+}
+
+/* Botão de copiar chave PIX */
+.copy-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 30px;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
+
+.copy-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.copy-button:active {
+    background-color: #3e8e41;
+    transform: scale(1);
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade no cabeçalho */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column; /* Alinha os itens verticalmente */
+        text-align: center; /* Centraliza os itens no cabeçalho */
+    }
+
+    #nome-igreja {
+        font-size: 1.5rem; /* Ajusta o tamanho da fonte do nome da igreja em telas menores */
+        margin: 10px 0; /* Adiciona espaçamento entre o nome e a logo */
+    }
+
+    .logo-igreja {
+        width: 120px; /* Ajusta o tamanho da logo em telas menores */
+    }
+}
+#atividades {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.icon {
+    font-size: 30px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.btn {
+    background: rgba(5, 5, 5, 0.753);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background: #72717075;
+}
+#palavra {
+    text-align: center;
+    padding: 40px 20px;
+    background: #fff;
+}
+
+hr {
+    width: 80px;
+    height: 3px;
+    background: black;
+    border: none;
+    margin: 10px auto;
+}
+
+.palavra-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.card-palavra {
+    position: relative;
+    width: 100%; /* Usa toda a largura disponível */
+    max-width: 350px; /* Define um limite */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 15px auto; /* Centraliza */
+}
+
+/* Ajuste correto do iframe */
+.card-palavra iframe {
+    width: 100%;
+    height: auto;
+    min-height: 200px; /* Evita altura muito pequena */
+    aspect-ratio: 19 / 9;
+    border: none;
+    display: block;
+}
+
+
+
+.card-palavra img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: none; /* Esconder a imagem se o vídeo for usado */
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.btn-palavra {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-palavra:hover {
+    background: white;
+    color: black;
+}
+.meu-link {
+    color: rgb(0, 0, 0); /* Define a cor azul */
+    font-family: "Times New Roman", serif;
+    font-size: 20px;
+    font-weight: normal;
+}
+#servicos {
+    text-align: center;
+    padding: 50px 20px;
+    background: #f8f9fa; /* Fundo suave */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+h2 {
+    font-size: 28px;
+    color: #2E7D32;
+    margin-bottom: 20px;
+}
+
+.servicos-lista {
+    list-style: none;
+    padding: 0;
+}
+
+.servicos-lista li {
+    font-size: 20px;
+    margin: 10px 0;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.servicos-lista li:hover {
+    transform: scale(1.05); /* Aumenta levemente ao passar o mouse */
+}
+
+/* Efeito de Fade-in */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}
