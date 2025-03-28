@@ -14,14 +14,14 @@ body {
 
 /* Estilo para o cabeçalho */
 header {
-    background-color: hsl(0, 0%, 0%);
+    background-color: hsl(0, 0%, 0%); /* Cor de fundo do header */
     color: white;
     padding: 0px 0;
     text-align: center;
     position: relative;
     z-index: 1;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
-    overflow: hidden; /* Garante que nada transborde */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    overflow: hidden;
 }
 
 /* Header content flex ajustado */
@@ -32,7 +32,7 @@ header {
     width: 100%; /* Alinha os itens para toda a largura */
     padding: 0 10px; /* Adiciona um pouco de espaçamento nas laterais */
     box-sizing: border-box; /* Garante que o padding não quebre o layout */
-    overflow: hidden; /* Garante que nada transborde */
+    overflow: hidden;
 }
 
 /* Ajuste no nome da igreja */
@@ -55,23 +55,23 @@ header {
     margin-right: 0px;
     max-width: 100%; /* Garante que a logo não ultrapasse os limites do cabeçalho */
 }
+
 /* Estilização da lista de redes sociais */
 .social-links {
     list-style: none;
     display: flex;
     gap: 20px; /* Espaçamento entre ícones */
     align-items: center;
-    
 }
 
-
+/* Ajuste no tamanho dos ícones */
 .social-links li img {
-    width: 25px; /* Ajuste do tamanho dos ícones */
+    width: 25px;
     height: 25px;
     transition: transform 0.2s ease-in-out;
-    
-   
 }
+
+/* Ajuste no filtro dos ícones */
 .social-links img {
     width: 40px;
     height: 40px;
@@ -82,15 +82,82 @@ header {
 .social-links img:hover {
     filter: none; /* Retorna à cor original ao passar o mouse */
 }
+
 /* Efeito de hover nos ícones */
 .social-links li img:hover {
     transform: scale(1.1);
 }
 
+/* Estilos específicos para dispositivos móveis */
+@media (max-width: 768px) {
+    /* Ajusta a estrutura do cabeçalho */
+    .header-content {
+        flex-direction: column; /* Empilha os elementos verticalmente */
+        text-align: center; /* Garante que o conteúdo do header fique centralizado */
+        padding: 20px 15px;
+    }
+
+    /* Ajusta o nome da igreja para telas menores */
+    #nome-igreja {
+        font-size: 1.5rem; /* Diminui o tamanho da fonte */
+        margin-bottom: 10px; /* Adiciona um pequeno espaçamento */
+    }
+
+    /* Ajusta a logo para telas menores */
+    .logo-igreja {
+        width: 150px; /* Logo um pouco menor em dispositivos móveis */
+        height: auto;
+        margin-bottom: 10px; /* Adiciona espaçamento entre a logo e o texto */
+    }
+
+    /* Ajusta os ícones de redes sociais */
+    .social-links {
+        gap: 15px; /* Diminui o espaçamento entre os ícones */
+        justify-content: center; /* Centraliza os ícones */
+        margin-top: 10px;
+    }
+
+    /* Ajuste no tamanho dos ícones de redes sociais */
+    .social-links li img {
+        width: 30px; /* Ícones um pouco menores */
+        height: 30px;
+    }
+}
+
+/* Estilos para telas muito pequenas */
+@media (max-width: 480px) {
+    /* Ajusta o padding do cabeçalho */
+    header .header-content {
+        padding: 15px 10px; /* Ajusta o padding para caber melhor em telas pequenas */
+    }
+
+    /* Ajusta o nome da igreja */
+    #nome-igreja {
+        font-size: 1.2rem; /* Tamanho da fonte ainda menor para telas pequenas */
+    }
+
+    /* Ajusta a logo para caber melhor */
+    .logo-igreja {
+        width: 120px; /* Logo ainda menor */
+    }
+
+    /* Ajusta os ícones de redes sociais */
+    .social-links {
+        gap: 10px; /* Espaçamento bem menor */
+    }
+
+    .social-links li img {
+        width: 25px; /* Ícones bem pequenos */
+        height: 25px;
+    }
+}
+
+
 nav {
     background-color: #333335; /* Cor de fundo moderna */
     padding: 15px 0;
     text-align: center;
+    border-bottom: 2px solid #4d4c4c; /* Borda sutil para separar o menu do resto da página */
 }
 
 nav ul {
@@ -101,10 +168,10 @@ nav ul {
     justify-content: center;
     gap: 30px; /* Aumentei o espaçamento */
 }
+
 nav ul li {
     display: inline;
 }
-
 
 nav ul li a {
     text-decoration: none;
@@ -116,13 +183,59 @@ nav ul li a {
     transition: all 0.3s ease-in-out;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave para destacar os links */
 }
-
 
 nav ul li a:hover {
     background-color: #4d4c4c; /* Cor ao passar o mouse */
     color: #ffffff;
+    transform: scale(1.05); /* Efeito de aumentar um pouco o item ao passar o mouse */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3); /* Sombra mais forte no hover */
 }
+
+nav ul li a:active {
+    background-color: #5c5a5a; /* Cor de fundo quando o item for tocado no celular */
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column; /* Torna os itens do menu em uma coluna */
+        gap: 20px; /* Ajusta o espaçamento para ficar mais compacto */
+    }
+
+    nav ul li a {
+        font-size: 18px; /* Reduz o tamanho da fonte em telas menores */
+        padding: 12px 18px; /* Ajusta o espaçamento do link */
+        border-radius: 20px; /* Diminui o arredondamento para ficar mais compacto */
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        padding: 10px 0; /* Diminui o padding do nav para caber melhor */
+    }
+
+    nav ul {
+        gap: 15px; /* Menos espaçamento em telas ainda menores */
+    }
+
+    nav ul li a {
+        font-size: 16px; /* Fonte ainda menor em telas pequenas */
+        padding: 10px 15px; /* Ajusta o padding para caber melhor */
+        border-radius: 15px; /* Mais arredondado */
+    }
+
+    nav ul li a:hover {
+        background-color: #666666; /* Cor do hover mais suave em dispositivos móveis */
+    }
+
+    nav ul li a:active {
+        background-color: #777777; /* Cor do ativo (toque) mais suave */
+    }
+}
+
+
 /* Estilo das seções */
 section {
     padding: 50px 20px;
