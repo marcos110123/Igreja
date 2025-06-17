@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <section id="login">
+    <h2>Login do Administrador</h2>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="E-mail" required />
+      <input type="password" id="senha" placeholder="Senha" required />
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="login-erro" style="color: red; display: none;"></p>
+  </section>
+
+  <script src="firebase-config.js"></script>
+  <script>
+    const auth = firebase.auth();
+
+    document.getElementById("login-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+
+      auth.signInWithEmailAndPassword(email, senha)
+        .then(() => {
+          // Redireciona para a página protegida
+          window.location.href = "painel-admin.html";
+        })
+        .catch(error => {
+          document.getElementById("login-erro").textContent = "Erro: " + error.message;
+          document.getElementById("login-erro").style.display = "block";
+        });
+    });
+  </script>
+</body>
+</html>
