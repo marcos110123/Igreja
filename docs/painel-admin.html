@@ -113,16 +113,29 @@
             id="camera"
             autoplay
             playsinline
-            width="320"
-            height="240"
-            style="border-radius: 10px; border: 1px solid #ccc"
+            width="640"
+            height="480"
+            style="
+              border-radius: 10px;
+              border: 1px solid #ccc;
+              max-width: 100%;
+              height: auto;
+            "
           ></video>
+
           <canvas
             id="fotoCanvas"
-            width="320"
-            height="240"
-            style="display: none; border-radius: 10px; border: 1px solid #ccc"
+            width="640"
+            height="480"
+            style="
+              display: none;
+              border-radius: 10px;
+              border: 1px solid #ccc;
+              max-width: 100%;
+              height: auto;
+            "
           ></canvas>
+
           <br />
           <button type="button" id="btn-tirar-foto" onclick="tirarFoto()">
             📸 Tirar Foto
