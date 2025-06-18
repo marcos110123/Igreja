@@ -71,12 +71,12 @@
           right: 12px;
         }
       }
+      #camera,
       #fotoCanvas {
-        display: none;
+        width: 100%;
+        height: auto;
         border-radius: 10px;
         border: 1px solid #ccc;
-        width: auto;
-        height: auto;
         max-width: 100%;
       }
     </style>
@@ -121,8 +121,6 @@
             id="camera"
             autoplay
             playsinline
-            width="640"
-            height="480"
             style="
               border-radius: 10px;
               border: 1px solid #ccc;
@@ -133,8 +131,6 @@
 
           <canvas
             id="fotoCanvas"
-            width="640"
-            height="480"
             style="display: none; border-radius: 10px; border: 1px solid #ccc"
           ></canvas>
 
@@ -226,19 +222,28 @@
         const btnTirar = document.getElementById("btn-tirar-foto");
         const btnRepetir = document.getElementById("btn-repetir-foto");
 
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // Pega as dimensões reais do vídeo
+        const largura = video.videoWidth;
+        const altura = video.videoHeight;
+
+        // Aplica essas dimensões ao canvas
+        canvas.width = largura;
+        canvas.height = altura;
+
+        // Desenha a imagem mantendo a proporção real
+        ctx.drawImage(video, 0, 0, largura, altura);
         const imagemBase64 = canvas.toDataURL("image/png");
         document.getElementById("fotoBase64").value = imagemBase64;
 
-        // Parar câmera
+        // Para a câmera
         const stream = video.srcObject;
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
 
-        // Exibir a imagem com proporção correta
+        // Exibe o canvas e esconde o vídeo
         canvas.style.display = "block";
-        canvas.style.width = "100%"; // Força largura responsiva
-        canvas.style.height = "auto"; // Mantém proporção correta
+        canvas.style.width = "100%";
+        canvas.style.height = "auto";
 
         video.style.display = "none";
         btnTirar.style.display = "none";
