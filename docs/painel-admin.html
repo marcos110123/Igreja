@@ -72,13 +72,12 @@
         }
       }
       #fotoCanvas {
-        width: 100%;
-        max-width: 640px;
-        aspect-ratio: 4 / 3;
-        object-fit: contain;
         display: none;
         border-radius: 10px;
         border: 1px solid #ccc;
+        width: auto;
+        height: auto;
+        max-width: 100%;
       }
     </style>
 
@@ -136,15 +135,7 @@
             id="fotoCanvas"
             width="640"
             height="480"
-            style="
-              display: none;
-              border-radius: 10px;
-              border: 1px solid #ccc;
-              width: 100%;
-              max-width: 640px;
-              aspect-ratio: 4 / 3;
-              object-fit: contain;
-            "
+            style="display: none; border-radius: 10px; border: 1px solid #ccc"
           ></canvas>
 
           <br />
@@ -244,9 +235,12 @@
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
 
-        // Mostrar canvas e botões
-        video.style.display = "none";
+        // Exibir a imagem com proporção correta
         canvas.style.display = "block";
+        canvas.style.width = "100%"; // Força largura responsiva
+        canvas.style.height = "auto"; // Mantém proporção correta
+
+        video.style.display = "none";
         btnTirar.style.display = "none";
         btnRepetir.style.display = "inline-block";
 
