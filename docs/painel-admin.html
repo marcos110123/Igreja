@@ -249,7 +249,7 @@
         btnTirar.style.display = "none";
         btnRepetir.style.display = "inline-block";
 
-        alert("📸 Foto capturada com sucesso!");
+        mostrarAlerta("📸 Foto capturada com sucesso!");
       }
 
       function ativarCamera() {
@@ -393,10 +393,26 @@
         }
       }
 
+      // Mostra a imagem em tamanho maior ao clicar
+      document.addEventListener("click", function (e) {
+        if (e.target.tagName === "IMG" && e.target.closest("td")) {
+          const src = e.target.getAttribute("src");
+          const modal = document.getElementById("fotoModal");
+          const modalImg = document.getElementById("fotoModalImg");
+          modalImg.src = src;
+          modal.style.display = "flex";
+        } else if (
+          e.target.id === "fotoModal" ||
+          e.target.id === "fotoModalImg"
+        ) {
+          document.getElementById("fotoModal").style.display = "none";
+        }
+      });
+
       async function excluirMembro(id) {
         if (confirm("Deseja excluir este membro?")) {
           await db.collection("membros").doc(id).delete();
-          alert("Excluído com sucesso!");
+          mostrarAlerta("Excluído com sucesso!");
           carregarMembros();
         }
       }
@@ -411,7 +427,7 @@
             .collection("membros")
             .doc(id)
             .update({ nome, telefone: tel });
-          alert("Atualizado!");
+          mostrarAlerta("Atualizado!");
           carregarMembros();
         }
       }
@@ -422,6 +438,88 @@
       });
 
       carregarMembros();
+
+      function mostrarAlerta(mensagem) {
+        const modal = document.getElementById("alertModal");
+        const msg = document.getElementById("alertModalMsg");
+        msg.textContent = mensagem;
+        modal.style.display = "flex";
+      }
+
+      function fecharAlerta() {
+        document.getElementById("alertModal").style.display = "none";
+      }
     </script>
+
+    <!-- Modal da foto -->
+    <div
+      id="fotoModal"
+      style="
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <img
+        id="fotoModalImg"
+        src=""
+        style="
+          max-width: 90%;
+          max-height: 90%;
+          border-radius: 10px;
+          box-shadow: 0 0 20px #000;
+        "
+      />
+    </div>
+
+    <!-- Modal de Alerta Personalizado -->
+    <div
+      id="alertModal"
+      style="
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 20px 30px;
+          border-radius: 10px;
+          text-align: center;
+          max-width: 90%;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        "
+      >
+        <p id="alertModalMsg" style="font-size: 16px; margin-bottom: 20px"></p>
+        <button
+          onclick="fecharAlerta()"
+          style="
+            padding: 8px 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+          "
+        >
+          OK
+        </button>
+      </div>
+    </div>
   </body>
 </html>
