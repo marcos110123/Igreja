@@ -1,238 +1,404 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Painel Administrativo - Igreja do Cervinho</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    .tabela-container {
-      overflow-x: auto;
-      margin-top: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background-color: #333;
-      color: white;
-    }
-    td button {
-      margin-right: 5px;
-    }
-    .paginacao {
-      margin-top: 20px;
-      text-align: center;
-    }
-    .paginacao button {
-      margin: 2px;
-      padding: 6px 12px;
-      border: none;
-      background-color: #555;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .paginacao button.active {
-      background-color: #ff6347;
-      font-weight: bold;
-    }
-  </style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Administrativo - Igreja do Cervinho</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .tabela-container {
+        overflow-x: auto;
+        margin-top: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #333;
+        color: white;
+      }
+      td button {
+        margin-right: 5px;
+      }
+      .paginacao {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .paginacao button {
+        margin: 2px;
+        padding: 6px 12px;
+        border: none;
+        background-color: #555;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .paginacao button.active {
+        background-color: #ff6347;
+        font-weight: bold;
+      }
+      .logout-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+      }
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-</head>
-<body>
-  <header>
-    <div class="header-content">
-      <div class="logo-e-titulo">
-        <img src="img.jpeg" class="logo-igreja" />
-        
+      .btn-sair {
+        padding: 8px 14px;
+        font-size: 14px;
+        border-radius: 8px;
+        background-color: #222;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-sair:hover {
+        background-color: #444;
+      }
+
+      @media (max-width: 768px) {
+        .logout-container {
+          top: 12px;
+          right: 12px;
+        }
+      }
+    </style>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="logo-e-titulo">
+          <img src="img.jpeg" class="logo-igreja" />
+        </div>
+        <div class="logout-container">
+          <button
+            onclick="firebase.auth().signOut().then(() => window.location.href = 'login.html')"
+            class="btn btn-sair"
+          >
+            🚪 Sair
+          </button>
+        </div>
       </div>
-      <button onclick="firebase.auth().signOut().then(() => window.location.href = 'login.html')" class="btn">🚪 Sair</button>
-    </div>
-  </header>
+    </header>
 
-  <section id="cadastro">
-    <h2>Cadastro de Membros</h2>
-    <form id="cadastro-form">
-      <input type="text" id="nome" placeholder="Nome completo" required />
-      <input type="text" id="telefone" placeholder="Telefone / WhatsApp" required />
-      <input type="email" id="email" placeholder="Email" />
-      <input type="text" id="endereco" placeholder="Endereço completo" />
-      <textarea id="observacoes" placeholder="Observações"></textarea>
-      <button type="submit">Cadastrar</button>
-    </form>
-    <p id="mensagem-cadastro" style="color: green; display: none;">Membro cadastrado com sucesso!</p>
-  </section>
+    <section id="cadastro">
+      <h2>Cadastro de Membros</h2>
+      <form id="cadastro-form">
+        <input type="text" id="nome" placeholder="Nome completo" required />
+        <input
+          type="text"
+          id="telefone"
+          placeholder="Telefone / WhatsApp"
+          required
+        />
+        <input type="email" id="email" placeholder="Email" />
+        <input type="text" id="endereco" placeholder="Endereço completo" />
+        <textarea id="observacoes" placeholder="Observações"></textarea>
+        <div id="camera-container">
+          <video
+            id="camera"
+            autoplay
+            playsinline
+            width="320"
+            height="240"
+            style="border-radius: 10px; border: 1px solid #ccc"
+          ></video>
+          <canvas
+            id="fotoCanvas"
+            width="320"
+            height="240"
+            style="display: none; border-radius: 10px; border: 1px solid #ccc"
+          ></canvas>
+          <br />
+          <button type="button" id="btn-tirar-foto" onclick="tirarFoto()">
+            📸 Tirar Foto
+          </button>
+          <button
+            type="button"
+            id="btn-repetir-foto"
+            onclick="reativarCamera()"
+            style="display: none"
+          >
+            🔁 Tirar outra foto
+          </button>
+          <input type="hidden" id="fotoBase64" />
+        </div>
 
-  <section id="lista">
-    <h2>Lista de Membros</h2>
-    <div style="margin: 10px 0;">
-  <button class="btn" onclick="exportarExcel()">📊 Exportar Excel</button>
-  <button class="btn" onclick="exportarPDF()">📄 Exportar PDF</button>
-</div>
+        <hr />
+        <button type="submit">Cadastrar</button>
+      </form>
+      <p id="mensagem-cadastro" style="color: green; display: none">
+        Membro cadastrado com sucesso!
+      </p>
+    </section>
 
-    <input type="text" id="filtro-nome" class="campo-busca" placeholder="🔍 Buscar por nome..." />
+    <section id="lista">
+      <h2>Lista de Membros</h2>
+      <div style="margin: 10px 0">
+        <button class="btn" onclick="exportarExcel()">📊 Exportar Excel</button>
+        <button class="btn" onclick="exportarPDF()">📄 Exportar PDF</button>
+      </div>
 
+      <input
+        type="text"
+        id="filtro-nome"
+        class="campo-busca"
+        placeholder="🔍 Buscar por nome..."
+      />
 
-    <div class="tabela-container">
-      <table id="tabela-membros">
-        <thead>
-  <tr>
-    <th>Nome</th>
-    <th>Telefone</th>
-    <th>Email</th>
-    <th>Endereço</th>
-    <th>Observações</th>
-    <th>Ações</th>
-  </tr>
-</thead>
+      <div class="tabela-container">
+        <table id="tabela-membros">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Email</th>
+              <th>Endereço</th>
+              <th>Observações</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
 
-        <tbody></tbody>
-      </table>
-    </div>
+          <tbody></tbody>
+        </table>
+      </div>
 
-    <div class="paginacao" id="paginacao"></div>
-  </section>
+      <div class="paginacao" id="paginacao"></div>
+    </section>
 
-  <script src="firebase-config.js"></script>
-  <script>
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) window.location.href = "login.html";
-    });
+    <script src="firebase-config.js"></script>
+    <script>
+      firebase.auth().onAuthStateChanged((user) => {
+        if (!user) window.location.href = "login.html";
+      });
 
-    const db = firebase.firestore();
-    const tabelaCorpo = document.querySelector("#tabela-membros tbody");
-    const filtroInput = document.getElementById("filtro-nome");
-    const paginacaoDiv = document.getElementById("paginacao");
+      const db = firebase.firestore();
+      const tabelaCorpo = document.querySelector("#tabela-membros tbody");
+      const filtroInput = document.getElementById("filtro-nome");
+      const paginacaoDiv = document.getElementById("paginacao");
 
-    let membros = [];
-    let paginaAtual = 1;
-    const porPagina = 15;
+      let membros = [];
+      let paginaAtual = 1;
+      const porPagina = 15;
 
-    function exportarExcel() {
-  const data = membros.map(m => ({
-    Nome: m.nome,
-    Telefone: m.telefone,
-    Email: m.email || "",
-    Endereço: m.endereco || "",
-    Observações: m.observacoes || ""
-  }));
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.json_to_sheet(data);
-  XLSX.utils.book_append_sheet(wb, ws, "Membros");
-  XLSX.writeFile(wb, "membros.xlsx");
-}
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          document.getElementById("camera").srcObject = stream;
+        })
+        .catch((err) => {
+          console.error("Erro ao acessar a câmera:", err);
+        });
 
- function exportarPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.setFontSize(12);
-  membros.forEach((m, i) => {
-    const y = 10 + (i % 30) * 8;
-    if (i > 0 && i % 30 === 0) doc.addPage();
-    doc.text(`Nome: ${m.nome}`, 10, y);
-    doc.text(`Telefone: ${m.telefone}`, 10, y + 4);
-    if (m.email) doc.text(`Email: ${m.email}`, 10, y + 8);
-    if (m.endereco) doc.text(`Endereço: ${m.endereco}`, 10, y + 12);
-    if (m.observacoes) doc.text(`Obs: ${m.observacoes}`, 10, y + 16);
-  });
-  doc.save("membros.pdf");
-}
+      function tirarFoto() {
+        const video = document.getElementById("camera");
+        const canvas = document.getElementById("fotoCanvas");
+        const ctx = canvas.getContext("2d");
+        const btnTirar = document.getElementById("btn-tirar-foto");
+        const btnRepetir = document.getElementById("btn-repetir-foto");
 
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imagemBase64 = canvas.toDataURL("image/png");
+        document.getElementById("fotoBase64").value = imagemBase64;
 
-    async function carregarMembros() {
-      const snapshot = await db.collection("membros").orderBy("criadoEm", "desc").get();
-      membros = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      renderizarTabela();
-    }
+        // Parar câmera
+        const stream = video.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
 
-    function renderizarTabela() {
-      const termo = filtroInput.value.toLowerCase();
-      const filtrados = membros.filter(m => m.nome.toLowerCase().includes(termo));
-      const totalPaginas = Math.ceil(filtrados.length / porPagina);
+        // Mostrar canvas e botões
+        video.style.display = "none";
+        canvas.style.display = "block";
+        btnTirar.style.display = "none";
+        btnRepetir.style.display = "inline-block";
 
-      const inicio = (paginaAtual - 1) * porPagina;
-      const fim = inicio + porPagina;
-      const pagina = filtrados.slice(inicio, fim);
+        alert("📸 Foto capturada com sucesso!");
+      }
 
-      tabelaCorpo.innerHTML = "";
-      pagina.forEach(m => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
+      function ativarCamera() {
+        const video = document.getElementById("camera");
+        const canvas = document.getElementById("fotoCanvas");
+        const btnTirar = document.getElementById("btn-tirar-foto");
+        const btnRepetir = document.getElementById("btn-repetir-foto");
+
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then((stream) => {
+            video.srcObject = stream;
+            video.style.display = "block";
+            canvas.style.display = "none";
+            btnTirar.style.display = "inline-block";
+            btnRepetir.style.display = "none";
+          })
+          .catch((err) => {
+            console.error("Erro ao acessar a câmera:", err);
+          });
+      }
+
+      function reativarCamera() {
+        document.getElementById("fotoBase64").value = "";
+        ativarCamera();
+      }
+
+      document
+        .getElementById("cadastro-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const nome = document.getElementById("nome").value.trim();
+          const telefone = document.getElementById("telefone").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const endereco = document.getElementById("endereco").value.trim();
+          const observacoes = document
+            .getElementById("observacoes")
+            .value.trim();
+          const foto = document.getElementById("fotoBase64").value;
+
+          await db.collection("membros").add({
+            nome,
+            telefone,
+            email,
+            endereco,
+            observacoes,
+            foto, // salva a imagem base64 direto no Firestore (pode pesar um pouco)
+            criadoEm: new Date(),
+          });
+
+          document.getElementById("mensagem-cadastro").style.display = "block";
+          this.reset();
+
+          reativarCamera();
+          carregarMembros();
+        });
+
+      function exportarExcel() {
+        const data = membros.map((m) => ({
+          Nome: m.nome,
+          Telefone: m.telefone,
+          Email: m.email || "",
+          Endereço: m.endereco || "",
+          Observações: m.observacoes || "",
+        }));
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "Membros");
+        XLSX.writeFile(wb, "membros.xlsx");
+      }
+
+      function exportarPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(12);
+        membros.forEach((m, i) => {
+          const y = 10 + (i % 30) * 8;
+          if (i > 0 && i % 30 === 0) doc.addPage();
+          doc.text(`Nome: ${m.nome}`, 10, y);
+          doc.text(`Telefone: ${m.telefone}`, 10, y + 4);
+          if (m.email) doc.text(`Email: ${m.email}`, 10, y + 8);
+          if (m.endereco) doc.text(`Endereço: ${m.endereco}`, 10, y + 12);
+          if (m.observacoes) doc.text(`Obs: ${m.observacoes}`, 10, y + 16);
+        });
+        doc.save("membros.pdf");
+      }
+
+      async function carregarMembros() {
+        const snapshot = await db
+          .collection("membros")
+          .orderBy("criadoEm", "desc")
+          .get();
+        membros = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        renderizarTabela();
+      }
+
+      function renderizarTabela() {
+        const termo = filtroInput.value.toLowerCase();
+        const filtrados = membros.filter((m) =>
+          m.nome.toLowerCase().includes(termo)
+        );
+        const totalPaginas = Math.ceil(filtrados.length / porPagina);
+
+        const inicio = (paginaAtual - 1) * porPagina;
+        const fim = inicio + porPagina;
+        const pagina = filtrados.slice(inicio, fim);
+
+        tabelaCorpo.innerHTML = "";
+        pagina.forEach((m) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
   <td>${m.nome}</td>
   <td>${m.telefone}</td>
   <td>${m.email || ""}</td>
   <td>${m.endereco || ""}</td>
   <td>${m.observacoes || ""}</td>
+  <td>${
+    m.foto
+      ? `<img src="${m.foto}" width="60" style="border-radius: 5px;" />`
+      : "—"
+  }</td>
+
   <td>
     <button onclick="editarMembro('${m.id}')">✏️</button>
     <button onclick="excluirMembro('${m.id}')">🗑️</button>
   </td>`;
 
+          tabelaCorpo.appendChild(tr);
+        });
 
-        tabelaCorpo.appendChild(tr);
+        paginacaoDiv.innerHTML = "";
+        for (let i = 1; i <= totalPaginas; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = i;
+          btn.classList.toggle("active", i === paginaAtual);
+          btn.onclick = () => {
+            paginaAtual = i;
+            renderizarTabela();
+          };
+          paginacaoDiv.appendChild(btn);
+        }
+      }
+
+      async function excluirMembro(id) {
+        if (confirm("Deseja excluir este membro?")) {
+          await db.collection("membros").doc(id).delete();
+          alert("Excluído com sucesso!");
+          carregarMembros();
+        }
+      }
+
+      async function editarMembro(id) {
+        const doc = await db.collection("membros").doc(id).get();
+        const m = doc.data();
+        const nome = prompt("Novo nome:", m.nome);
+        const tel = prompt("Novo telefone:", m.telefone);
+        if (nome && tel) {
+          await db
+            .collection("membros")
+            .doc(id)
+            .update({ nome, telefone: tel });
+          alert("Atualizado!");
+          carregarMembros();
+        }
+      }
+
+      filtroInput.addEventListener("input", () => {
+        paginaAtual = 1;
+        renderizarTabela();
       });
 
-      paginacaoDiv.innerHTML = "";
-      for (let i = 1; i <= totalPaginas; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        btn.classList.toggle("active", i === paginaAtual);
-        btn.onclick = () => { paginaAtual = i; renderizarTabela(); };
-        paginacaoDiv.appendChild(btn);
-      }
-    }
-
-    async function excluirMembro(id) {
-      if (confirm("Deseja excluir este membro?")) {
-        await db.collection("membros").doc(id).delete();
-        alert("Excluído com sucesso!");
-        carregarMembros();
-      }
-    }
-
-    async function editarMembro(id) {
-      const doc = await db.collection("membros").doc(id).get();
-      const m = doc.data();
-      const nome = prompt("Novo nome:", m.nome);
-      const tel = prompt("Novo telefone:", m.telefone);
-      if (nome && tel) {
-        await db.collection("membros").doc(id).update({ nome, telefone: tel });
-        alert("Atualizado!");
-        carregarMembros();
-      }
-    }
-
-    document.getElementById("cadastro-form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const nome = document.getElementById("nome").value.trim();
-      const telefone = document.getElementById("telefone").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const endereco = document.getElementById("endereco").value.trim();
-      const observacoes = document.getElementById("observacoes").value.trim();
-      await db.collection("membros").add({ nome, telefone, email, endereco, observacoes, criadoEm: new Date() });
-      document.getElementById("mensagem-cadastro").style.display = "block";
-      this.reset();
       carregarMembros();
-    });
-
-    filtroInput.addEventListener("input", () => {
-      paginaAtual = 1;
-      renderizarTabela();
-    });
-
-    carregarMembros();
-  </script>
-</body>
+    </script>
+  </body>
 </html>
